@@ -7,21 +7,40 @@
     Formato de saída: elemento lido relacionado a um ou mais estados de destino
 '''
 
-def conversao(afe, alfabeto):
+def buscaE(trans, afe):
+    t1 = []
+    destinos = list(trans.keys())
+    elementos = list(trans.values())
+    for i in range(0, len(elementos)):
+        if elementos[i] == 'e':
+            t1.append(destinos[i])
+            t2 = buscaE(afe[destinos[i]], afe)
+            if isinstance(t2, list) and len(t2) > 0:
+                return t1 + t2
+            else:
+                return t1
+#fim da função de busca por elementos e
+
+def conversao(afe): #corrigir apenas a formatação da saída que o mesmo não apresenta da forma correta, olhar folha que está no caderno de LFA
     afn = {}
 
     for i in afe:
+        transicoes = {}
         e1 = afe[i]
-        d1 = e1.keys()
-        el1 = e1.values()
-        for j in d1:
-            e2 = afe[j]
-            el2 = e2.values()
-            if('e' in el2):
-                d2 = e2.keys()
+        d1 = list(e1.keys()) #d1: destinos que o automato pode ter, de acordo com cada elemento lido
+        el1 = list(e1.values()) #el1: são os elementos lido
+        for j in range(0, len(d1)):
+            d2 = d1[j] #esse é o estado que vai ser verificado
+            el2 = el1[j] #esse é o elemento do alfabeto lido da vez
+            transicoes[d2] = el2            
+            if 'e' in afe[d2].values():
+                te = buscaE(afe[d2], afe)
+                for k in te:
+                    transicoes[k] = el2
+                afn[i] = transicoes
 
-
-    #return afn
+    return afn
+#fim da função de conversão
 
 totalTrans = 0
 afe = {} #transições de cada estado do automato
@@ -53,6 +72,6 @@ else:
 
 print(afe)
 
-#if(convert):
-    #afn = conversao(afe)
-    #print(afn)
+if(convert):
+    afn = conversao(afe)
+    print(afn)
