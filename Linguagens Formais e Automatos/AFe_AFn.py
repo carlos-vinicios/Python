@@ -6,7 +6,7 @@
     Forma de entrada: estado de destino relacionado a um elemento lido
     Formato de saída: elemento lido relacionado a um ou mais estados de destino
 '''
-def buscarE(afe, estado, elem):
+def buscarE(afe, estado, elem): #corrigir para retornar uma lista e não apenas 1 único elemento
     trans1 = {} #transicoes primarias
     trans2 = {} #transicoes secundarias
     atual = afe[estado]
@@ -16,16 +16,19 @@ def buscarE(afe, estado, elem):
             trans1[i] = elem
             trans2 = buscarE(afe, i, elem)
             if(len(trans2) > 0):
-                trans1.update(trans2)
+                trans1.update(trans2) #não dar update, verifica os hashs e concatena as listas sem elementos repitidos
     return trans1
 
-def pipeline(afe, estado, elem):
+def pipeline(afe, estado, alfabeto):
     trans1 = {}
     atual = afe[estado]
     for i in atual:
         trans1[i] = []
-        if(atual[i] == elem):
-            trans1[i].append(elem)
+        for a in alfabeto:
+            if(atual[i] == a):
+                trans1[i].append(a)
+        
+    print(trans1)
     return trans1
 
 
@@ -43,11 +46,11 @@ def conversao(afe, alfabeto): #corrigir apenas a formatação da saída que o me
                     trans1[t].append(elem)
                     trans2 = buscarE(afe, t, elem)
                     if(len(trans2) > 0):
-                        trans1.update(trans2)
+                        trans1.update(trans2)  #não dar update, verifica os hashs e concatena as listas sem elementos repitidos
                 elif(transicoes[t] == 'e'):
-                    trans2 = pipeline(afe, t, elem)
+                    trans2 = pipeline(afe, t, alfabeto)
                     if(len(trans2) > 0):
-                        trans1.update(trans2)
+                        trans1.update(trans2) #não dar update, verifica os hashs e concatena as listas sem elementos repitidos
         afn[i] = trans1
     return afn
 #fim da função de conversão
