@@ -1,3 +1,5 @@
+#faz a classificação de uma imagem segundo a softmax contida na imagenet
+
 from keras.applications.vgg16 import VGG16
 from keras.applications.vgg16 import decode_predictions,preprocess_input
 from keras.preprocessing import image
