@@ -31,6 +31,6 @@ for layer in model.layers: #congela as camadas iniciais do modelo para que não 
 
 model.add(Dense(2, activation='softmax')) #adicionamos uma nova dense layer como softmax, para classificação entre melanoma e não melanoma
 
-model.compile(Adam(lr=.0001), loss="categorical_crossentropy", metrics=['accuracy', 'precision', 'recall', 'f1'])
+model.compile(Adam(lr=.0001), loss="categorical_crossentropy", metrics=['accuracy'])
 
 model.fit_generator(train_batches, steps_per_epoch=4, validation_data=valid_batches, validation_steps=4, epochs=5, verbose=2)
