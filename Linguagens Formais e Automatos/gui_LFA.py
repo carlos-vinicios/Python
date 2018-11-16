@@ -1,3 +1,17 @@
+'''
+    PARA FAZER:
+        -Organizar melhor o direcionamento das setas para as transições de estado
+        -Ver o caso da auto-transição
+        -Leitura do alfabeto
+        -Nomear os estados
+        -Colocar os labels nos estados
+        -Colocar os labels nas transições
+        -Implementar as regras
+        -Colocar o botão para conversão
+        -Sinalizar o estado selecionado, ao realizar as transições
+        -Implementar a renderização do AFN de retorno
+'''
+
 from tkinter import *
 
 root = Tk()
