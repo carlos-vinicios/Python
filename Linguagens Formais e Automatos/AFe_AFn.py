@@ -31,17 +31,29 @@ def buscarE(afe, estado, elem): #realiza a busca por elementos epsilons
 
 def pipeline(afe, estado, elem): #verifica as transições paralelas para os estados epsilons 
     trans1 = {}
+    trans2 = {}
     atual = afe[estado]
     for i in atual:
         trans1[i] = []
         if(atual[i] == elem): #verifica se o dado estado apresenta transição com o elemento especifico lido
             trans1[i].append(elem)
+        if(atual[i] == 'e'):
+            trans1[i].append(elem)
+            trans2 = pipeline(afe, i, elem)
+        if(len(trans2) > 0):
+            for t2 in trans2:
+                if t2 in trans1.keys() and len(trans2[t2]) > 0:
+                    trans1[t2] = union(trans1[t2], trans2[t2])
+                elif len(trans2[t2]) > 0:
+                    trans1[t2] = trans2[t2]
+            trans2.clear()
     return trans1
 
 
 def conversao(afe, alfabeto, es_finais): #corrigir apenas a formatação da saída que o mesmo não apresenta da forma correta, olhar folha que está no caderno de LFA
     afn = {}
     finais = []
+    print(afe)
     for i in afe:
         trans1 = {} #transicoes primarias
         trans2 = {} #transicoes secundarias
