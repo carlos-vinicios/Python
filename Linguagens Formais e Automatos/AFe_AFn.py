@@ -53,7 +53,6 @@ def pipeline(afe, estado, elem): #verifica as transições paralelas para os est
 def conversao(afe, alfabeto, es_finais): #corrigir apenas a formatação da saída que o mesmo não apresenta da forma correta, olhar folha que está no caderno de LFA
     afn = {}
     finais = []
-    print(afe)
     for i in afe:
         trans1 = {} #transicoes primarias
         trans2 = {} #transicoes secundarias
