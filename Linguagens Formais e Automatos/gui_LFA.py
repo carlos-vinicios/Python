@@ -1,10 +1,11 @@
 '''
     PARA FAZER:
-        -Ver o caso da auto-transição
-        -Colocar o botão para conversão
-        -Sinalizar o estado selecionado, ao realizar as transições
-        -Implementar a renderização do AFN de retorno
+        -Colocar botão para confirmar o alfabeto
         -Só permitir a inserção do primeiro estado, após a inserção do alfabeto
+        -Colocar o botão para conversão
+        -Implementar a renderização do AFN de retorno
+        -Ver o caso da auto-transição
+        -Sinalizar o estado selecionado, ao realizar as transições
 '''
 from tkinter import *
 
@@ -48,6 +49,8 @@ def limitSize_a3(*args):
         a3.config({"background": "White"})
 
 def create_alfa_box():
+    global alfaBox_init
+    alfaBox_init = True
     #--------------DESATIVAR AS CAIXAS DE TEXTOS -----------------------
     tag = "alfa_box"
     canvas.create_rectangle(200, 200, 600, 300, fill="White", tags=tag)
@@ -95,6 +98,7 @@ def criar_transicao(canvas, x1, y1, x2, y2):
     t_x2 = x2
     t_y2 = y2
 
+#------------------------------- INICIO DO TKINTER ---------------------------------
 root = Tk()
 root.title("Conversor de AFe - AFN")
 root.resizable(0,0)
@@ -116,11 +120,13 @@ a2 = Entry(canvas, font="Times 14 bold", textvariable=a2_val)
 a3_val = StringVar()
 a3_val.trace('w', limitSize_a3)
 a3 = Entry(canvas, font="Times 14 bold", textvariable=a3_val)
+confirm_alfabeto = Button(canvas, text = "Confirmar", font="Times", command=create_alfa_box)
 
 canvas.create_text(50, 100, fill="black", font="Times 14 bold", text="Alfabeto:")
 canvas.create_window(120, 100, window=a1, height=25, width=50)
 canvas.create_window(200, 100, window=a2, height=25, width=50)
 canvas.create_window(280, 100, window=a3, height=25, width=50)
+canvas.create_window(380, 100, window=confirm_alfabeto, height=25, width=100)
 #------------------------- FIM DEFINIÇÃO ALFABETO --------------------------------
 
 alfabeto = [ "", "", ""]
@@ -133,15 +139,7 @@ x1=65
 y1=235
 
 #posições para realização da criação de transições
-x1_lig=None
-y1_lig=None
-x2_lig=None
-y2_lig=None
-x3_lig=None
-y3_lig=None
-x4_lig=None
-y4_lig=None
-
+x1_lig=y1_lig=x2_lig=y2_lig=x3_lig=y3_lig=x4_lig=y4_lig=None
 t_x1=t_y1=t_x2=t_y2=None
 
 class Estado:
@@ -187,13 +185,10 @@ class Estado:
             self.canvas.tag_bind(self.text_label, "<B1-Motion>", self.on_token_motion)
             if self.obj2 != None:
                 self.canvas.tag_bind(self.obj2, "<Button-1>", self.criar_novo)
-            if not alfaBox_init:
-                create_alfa_box()
-                alfaBox_init = True
     
     def criar_novo(self, event):
         global estados
-        if estados < 5:
+        if estados < 5 and alfaBox_init:
             global x1_lig, y1_lig, x2_lig, y2_lig, x3_lig, y3_lig, x4_lig, y4_lig
             if x1_lig != None or x3_lig != None:
                 x1_lig=y1_lig=x2_lig=y2_lig=x3_lig=y3_lig=x4_lig=y4_lig=None
